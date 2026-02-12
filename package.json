@@ -1,0 +1,16 @@
+{
+    "name": "shiv-minerals",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Shiv Minerals - Premium Silica Mining & Supply",
+    "dependencies": {
+        "mongoose": "^8.0.3",
+        "nodemailer": "^6.9.7"
+    },
+    "devDependencies": {
+        "@vercel/node": "^3.0.0",
+        "@types/node": "^20.10.5",
+        "@types/nodemailer": "^6.4.14",
+        "typescript": "^5.3.3"
+    }
+}
