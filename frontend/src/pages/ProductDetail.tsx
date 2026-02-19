@@ -28,7 +28,7 @@ const productData: Record<string, { name: string; description: string; image: st
         seoTitle: 'Construction Grade Silica Sand | Premium Quality | Shiv Minerals',
         seoDescription: 'Premium construction grade silica sand from Shiv Mines and Minerals. Washed, clean, and consistently graded for concrete, mortar, plastering, and asphalt. ASTM specification compliant.',
         description: 'Shiv Mines and Minerals proudly provides Construction Sand, the finest silica sand that is well known for its unparalleled quality, strength, and durability. The construction sand is mined carefully from selected locations and then washed on site to rid itself of impurities so that it is utterly free from clay and other adulterants. This, in turn, is very important to get results in construction jobs wherein stability and longevity are so imperative. With its even granular size and dense structure, the sand is ideal for all types of construction purposes-from bricklaying and plastering to the manufacture of concrete.',
-        image: '/images/product-construction-sand.jpg',
+        image: '/images/construction-sand.png',
         applications: [
             { title: 'Masonry Works', description: 'Solid base for bricklaying and stonework, with excellent bonding properties for mortar.' },
             { title: 'Plastering Work', description: 'Finer, washed texture helps gain finer, even quality in wall and ceiling plastering.' },
@@ -62,7 +62,7 @@ const productData: Record<string, { name: string; description: string; image: st
         seoTitle: 'Foundry Grade Silica Sand | Metal Casting Sand | Shiv Minerals',
         seoDescription: 'Superior foundry grade silica sand for iron, steel, and aluminum casting. Optimal AFS grain fineness, high refractoriness (1700°C+), and excellent permeability. From Shiv Mines and Minerals.',
         description: 'Shiv Mines and Minerals supplies superior Foundry Sand engineered specifically for metal casting applications. Our foundry-grade silica sand features optimal grain shape, high refractoriness, and excellent permeability - essential properties for producing quality castings. The sand is processed to achieve consistent AFS grain fineness numbers and low acid demand values.',
-        image: '/images/product-foundry-sand.jpg',
+        image: '/images/foundry-sand.png',
         applications: [
             { title: 'Iron & Steel Casting', description: 'High refractoriness withstands molten metal temperatures.' },
             { title: 'Aluminum Casting', description: 'Excellent surface finish for non-ferrous metal casting.' },

@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-const constructionSand = "/images/product-construction-sand.jpg";
+const constructionSand = "/images/construction-sand.png";
 const industrialSand = "/images/product-industrial-sand.jpg";
-const foundrySand = "/images/product-foundry-sand.jpg";
+const foundrySand = "/images/foundry-sand.png";
 const glassSand = "/images/product-glass-sand.jpg";
 
 const products = [

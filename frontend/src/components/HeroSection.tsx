@@ -1,22 +1,144 @@
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
 
-const heroImage = "/images/hero-quarry.jpg";
+const heroSlides = [
+    {
+        src: "/images/1.png",
+        alt: "Aerial view of Shiv Mines and Minerals silica mine and quarry operations",
+    },
+    {
+        src: "/images/2.png",
+        alt: "Silica sand processing plant and machinery",
+    },
+    {
+        src: "/images/3.png",
+        alt: "Massive silica sand stockpiles at the mining site",
+    },
+];
+
+const SLIDE_INTERVAL = 6000;
 
 const HeroSection = () => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [direction, setDirection] = useState(1);
+
+    const goToSlide = useCallback(
+        (index: number) => {
+            setDirection(index > currentSlide ? 1 : -1);
+            setCurrentSlide(index);
+        },
+        [currentSlide]
+    );
+
+    const nextSlide = useCallback(() => {
+        setDirection(1);
+        setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, []);
+
+    const prevSlide = useCallback(() => {
+        setDirection(-1);
+        setCurrentSlide(
+            (prev) => (prev - 1 + heroSlides.length) % heroSlides.length
+        );
+    }, []);
+
+    // Auto-rotate slides
+    useEffect(() => {
+        const timer = setInterval(nextSlide, SLIDE_INTERVAL);
+        return () => clearInterval(timer);
+    }, [nextSlide]);
+
+    const slideVariants = {
+        enter: (dir: number) => ({
+            x: dir > 0 ? "100%" : "-100%",
+            opacity: 0,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+        },
+        exit: (dir: number) => ({
+            x: dir > 0 ? "-100%" : "100%",
+            opacity: 0,
+        }),
+    };
+
     return (
-        <section className="relative min-h-screen flex items-center" aria-label="Hero section - Silica Mine">
-            {/* Background */}
-            <div className="absolute inset-0">
-                <img
-                    src={heroImage}
-                    alt="Aerial view of Shiv Mines and Minerals silica mine and quarry operations showing extraction of high-purity silica sand"
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    fetchPriority="high"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        <section
+            className="relative min-h-screen flex items-center"
+            aria-label="Hero section - Silica Mine"
+        >
+            {/* Background Carousel */}
+            <div className="absolute inset-0 overflow-hidden">
+                <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                    <motion.img
+                        key={currentSlide}
+                        src={heroSlides[currentSlide].src}
+                        alt={heroSlides[currentSlide].alt}
+                        custom={direction}
+                        variants={slideVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                            x: { type: "tween", duration: 0.8, ease: "easeInOut" },
+                            opacity: { duration: 0.6 },
+                        }}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        loading="eager"
+                        fetchPriority="high"
+                    />
+                </AnimatePresence>
+
+                {/* Dark overlays for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30 z-[1]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-[1]" />
+            </div>
+
+            {/* Arrow Controls */}
+            <button
+                onClick={prevSlide}
+                className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all duration-300 group"
+                aria-label="Previous slide"
+            >
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform duration-200" />
+            </button>
+            <button
+                onClick={nextSlide}
+                className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all duration-300 group"
+                aria-label="Next slide"
+            >
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform duration-200" />
+            </button>
+
+            {/* Dot Indicators */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
+                {heroSlides.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => goToSlide(index)}
+                        className={`relative h-2 rounded-full transition-all duration-500 ${index === currentSlide
+                            ? "w-8 bg-accent"
+                            : "w-2 bg-white/40 hover:bg-white/60"
+                            }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                    >
+                        {/* Progress bar on active dot */}
+                        {index === currentSlide && (
+                            <motion.div
+                                className="absolute inset-0 bg-accent/60 rounded-full origin-left"
+                                initial={{ scaleX: 0 }}
+                                animate={{ scaleX: 1 }}
+                                transition={{
+                                    duration: SLIDE_INTERVAL / 1000,
+                                    ease: "linear",
+                                }}
+                                key={`progress-${currentSlide}`}
+                            />
+                        )}
+                    </button>
+                ))}
             </div>
 
             {/* Content */}
@@ -48,8 +170,10 @@ const HeroSection = () => {
                         transition={{ duration: 0.5, delay: 0.6 }}
                         className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed mb-8 sm:mb-10 max-w-xl"
                     >
-                        With a daily production capacity of <strong className="text-white">1,000 tonnes</strong>, our silica mine supplies
-                        high-purity sand to the world's leading glass, foundry, and construction industries.
+                        With a daily production capacity of{" "}
+                        <strong className="text-white">1,000 tonnes</strong>, our
+                        silica mine supplies high-purity sand to the world's leading
+                        glass, foundry, and construction industries.
                     </motion.p>
 
                     <motion.div
@@ -64,7 +188,10 @@ const HeroSection = () => {
                             aria-label="Request a quote for silica sand products"
                         >
                             Request a Quote
-                            <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                            <ArrowRight
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                            />
                         </a>
                         <a
                             href="#products"
@@ -72,7 +199,10 @@ const HeroSection = () => {
                             aria-label="View our silica sand products"
                         >
                             View Silica Products
-                            <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                            <ArrowRight
+                                className="w-5 h-5"
+                                aria-hidden="true"
+                            />
                         </a>
                     </motion.div>
                 </div>
