@@ -96,35 +96,44 @@ const HeroSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-[1]" />
             </div>
 
-            {/* Arrow Controls */}
+            {/* Arrow Controls — side arrows only on sm+ screens */}
             <button
                 onClick={prevSlide}
-                className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all duration-300 group"
+                className="hidden sm:flex absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all duration-300 group"
                 aria-label="Previous slide"
             >
-                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform duration-200" />
+                <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform duration-200" />
             </button>
             <button
                 onClick={nextSlide}
-                className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all duration-300 group"
+                className="hidden sm:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all duration-300 group"
                 aria-label="Next slide"
             >
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform duration-200" />
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform duration-200" />
             </button>
 
-            {/* Dot Indicators */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
+            {/* Bottom Controls: mobile arrows + dots */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
+                {/* Prev arrow — mobile only */}
+                <button
+                    onClick={prevSlide}
+                    className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 transition-all duration-300"
+                    aria-label="Previous slide"
+                >
+                    <ChevronLeft className="w-4 h-4" />
+                </button>
+
+                {/* Dot Indicators */}
                 {heroSlides.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => goToSlide(index)}
                         className={`relative h-2 rounded-full transition-all duration-500 ${index === currentSlide
-                            ? "w-8 bg-accent"
-                            : "w-2 bg-white/40 hover:bg-white/60"
+                                ? "w-8 bg-accent"
+                                : "w-2 bg-white/40 hover:bg-white/60"
                             }`}
                         aria-label={`Go to slide ${index + 1}`}
                     >
-                        {/* Progress bar on active dot */}
                         {index === currentSlide && (
                             <motion.div
                                 className="absolute inset-0 bg-accent/60 rounded-full origin-left"
@@ -139,6 +148,15 @@ const HeroSection = () => {
                         )}
                     </button>
                 ))}
+
+                {/* Next arrow — mobile only */}
+                <button
+                    onClick={nextSlide}
+                    className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm border border-white/15 text-white/80 hover:bg-white/20 transition-all duration-300"
+                    aria-label="Next slide"
+                >
+                    <ChevronRight className="w-4 h-4" />
+                </button>
             </div>
 
             {/* Content */}
